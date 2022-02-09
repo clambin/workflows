@@ -21,7 +21,7 @@ jobs:
           path: ./bld
       - uses: actions/download-artifact@v2
         with:
-          name: ${{ inputs.target }-linux-arm64
+          name: ${{ inputs.target }}-linux-arm64
           path: ./bld
       - uses: actions/download-artifact@v2
         with:
