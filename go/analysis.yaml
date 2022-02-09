@@ -1,0 +1,26 @@
+name: Analysis
+
+on:
+   workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
+
+jobs:
+  analyse:
+    name: lint and vet Go project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-go@v2
+        with:
+          go-version: {{ inputs.go-version }}
+      - name: install dependencies
+        run: go install golang.org/x/lint/golint@latest
+      - name: lint
+        run: |
+          golint ./...
+      - name: vet
+        run: |
+          go vet ./...
