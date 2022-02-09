@@ -41,7 +41,8 @@ jobs:
         with:
           images: ghcr.io/${{ inputs.repo }}/${{ inputs.target }}
           tags: |
-            type=sha
+            type=sha,suffix={{date 'YYYYMMDD'}}
+            type=semver,pattern={{version}}
       - uses: docker/build-push-action@v2.8.0
         with:
           context: .
