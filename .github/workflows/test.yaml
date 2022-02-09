@@ -8,8 +8,8 @@ on:
         type: string
 
 jobs:
-  analyse:
-    name: run all go tests
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

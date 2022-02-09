@@ -1,0 +1,47 @@
+name: Build
+
+on:
+   workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+      goos:
+        required: true
+        type: string
+      goarch:
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ inputs.go-version }}
+      - name: build
+        env:
+          TARGET: ${{ inputs.target }}
+          GOOS: ${{ inputs.goos }}
+          GOARCH: ${{ inputs.goarch }}
+          VERSION: ${{ inputs.version }}
+        run |
+          CGO_ENABLED=0 go build \
+              -ldflags "-X github.com/clambin/grafana-exporter/version.BuildVersion=$VERSION" \
+              -o bld/$TARGET-$GOOS-$GOARCH \
+              cmd/$TARGET/$TARGET.go
+      - name: artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.target }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ./bld/*
+
