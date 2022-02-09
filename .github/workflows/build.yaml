@@ -32,7 +32,7 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
           VERSION: ${{ steps.vars.outputs.version }}
-        run |
+        run: |
           CGO_ENABLED=0 go build \
               -ldflags "-X github.com/clambin/grafana-exporter/version.BuildVersion=$VERSION" \
               -o bld/$TARGET-$GOOS-$GOARCH \
