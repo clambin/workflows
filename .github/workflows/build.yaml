@@ -6,16 +6,7 @@ on:
       go-version:
         required: true
         type: string
-      version:
-        required: true
-        type: string
       target:
-        required: true
-        type: string
-      goos:
-        required: true
-        type: string
-      goarch:
         required: true
         type: string
 
@@ -23,17 +14,24 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [ linux ]
+        goarch: [ amd64, arm, arm64 ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ inputs.go-version }}
+      - name: Version number
+        id: vars
+        run: echo ::set-output name=version::${GITHUB_REF##*/}
       - name: build
         env:
           TARGET: ${{ inputs.target }}
-          GOOS: ${{ inputs.goos }}
-          GOARCH: ${{ inputs.goarch }}
-          VERSION: ${{ inputs.version }}
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          VERSION: ${{ steps.vars.outputs.version }}
         run |
           CGO_ENABLED=0 go build \
               -ldflags "-X github.com/clambin/grafana-exporter/version.BuildVersion=$VERSION" \
