@@ -8,8 +8,8 @@ on:
         type: string
 
 jobs:
-  analyse:
-    name: lint and vet Go project
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.4.0
@@ -21,6 +21,15 @@ jobs:
       - name: lint
         run: |
           golint ./...
+  vet:
+    name: vet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ inputs.go-version }}
       - name: vet
         run: |
           go vet ./...
+
