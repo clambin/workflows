@@ -10,7 +10,7 @@ on:
         required: true
         type: string
       dockerfile:
-        required: no
+        required: false
         default: ./build/Dockerfile
         type: string
 
