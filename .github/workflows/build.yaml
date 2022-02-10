@@ -13,6 +13,10 @@ on:
         required: false
         default: ./build/Dockerfile
         type: string
+      repo:
+        required: false
+        default: clambin
+        type: string
 
 jobs:
   build:
