@@ -41,7 +41,7 @@ jobs:
           VERSION: ${{ steps.vars.outputs.version }}
         run: |
           CGO_ENABLED=0 go build \
-              -ldflags "-X github.com/clambin/grafana-exporter/version.BuildVersion=$VERSION" \
+              -ldflags "-X github.com/$GITHUB_REPOSITORY/version.BuildVersion=$VERSION" \
               -o bld/$TARGET-$GOOS-$GOARCH \
               cmd/$TARGET/$TARGET.go
       - name: artifacts
