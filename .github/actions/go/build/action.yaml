@@ -21,26 +21,26 @@ inputs:
     type: string
 runs:
   steps:
-     - uses: actions/checkout@v2
-     - uses: actions/setup-go@v2
-       with:
-         go-version: ${{ inputs.go-version }}
-          - name: Version number
-        id: vars
-        run: echo ::set-output name=version::${GITHUB_REF##*/}
-      - name: build
-        env:
-          TARGET: ${{ inputs.target }}
-          GOOS: ${{ input.goos }}
-          GOARCH: ${{ input.goarch }}
-          VERSION: ${{ steps.vars.outputs.version }}
-        run: |
-          CGO_ENABLED=0 go build \
-              -ldflags "-X github.com/$GITHUB_REPOSITORY/version.BuildVersion=$VERSION" \
-              -o bld/$TARGET-$GOOS-$GOARCH \
-              cmd/$TARGET/$TARGET.go
-      - name: artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ inputs.target }}-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: ./bld/*
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+       go-version: ${{ inputs.go-version }}
+    - id: vars
+      name: Version number
+      run: echo ::set-output name=version::${GITHUB_REF##*/}
+    - name: build
+      env:
+        TARGET: ${{ inputs.target }}
+        GOOS: ${{ input.goos }}
+        GOARCH: ${{ input.goarch }}
+        VERSION: ${{ steps.vars.outputs.version }}
+      run: |
+        CGO_ENABLED=0 go build \
+            -ldflags "-X github.com/$GITHUB_REPOSITORY/version.BuildVersion=$VERSION" \
+            -o bld/$TARGET-$GOOS-$GOARCH \
+            cmd/$TARGET/$TARGET.go
+    - name: artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.target }}-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: ./bld/*
