@@ -19,7 +19,15 @@ on:
         type: string
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/test@actions
+        with:
+          go-version: ${{ inputs.go-version }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}  
   build:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,6 +37,7 @@ jobs:
       - uses: clambin/workflows/.github/actions/go/build@actions
         with:
           go-version: ${{ inputs.go-version }}
+          target: ${{ inputs.target }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
   docker:
