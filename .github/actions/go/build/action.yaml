@@ -1,5 +1,5 @@
 name: build
-description: "run go build
+description: "run go build"
 inputs:
   go-version:
     description: "go version"
