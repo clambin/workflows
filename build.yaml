@@ -22,26 +22,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/test@actions
+      - uses: clambin/workflows/actions/go/test@actions
         with:
           go-version: ${{ inputs.go-version }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}  
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/lint@actions
+      - uses: clambin/workflows/actions/go/lint@actions
         with:
           go-version: ${{ inputs.go-version }}
   vet:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/vet@actions
+      - uses: clambin/workflows/actions/go/vet@actions
         with:
           go-version: ${{ inputs.go-version }}
   vulnerabilities:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
+      - uses: clambin/workflows/actions/go/vulnerabilities@actions
         with:
           go-version: ${{ inputs.go-version }}
   build:
@@ -51,7 +51,7 @@ jobs:
         goos: [ linux ]
         goarch: [ amd64, arm, arm64 ]
     steps:
-      - uses: clambin/workflows/.github/actions/go/build@actions
+      - uses: clambin/workflows/actions/go/build@actions
         with:
           go-version: ${{ inputs.go-version }}
           target: ${{ inputs.target }}
@@ -66,7 +66,7 @@ jobs:
       - vulnerabilities
       - build
     steps:
-      - uses: clambin/workflows/.github/actions/docker@actions
+      - uses: clambin/workflows/actions/docker@actions
         with:
           target: ${{ inputs.target }}
           repo: ${{ inputs.repo }}

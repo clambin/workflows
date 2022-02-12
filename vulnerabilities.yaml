@@ -11,7 +11,7 @@ jobs:
   vulnerabilities:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
+      - uses: clambin/workflows/actions/go/vulnerabilities@actions
         with:
           go-version: ${{ inputs.go-version }}
 
