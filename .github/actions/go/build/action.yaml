@@ -28,17 +28,19 @@ runs:
     - id: vars
       name: Version number
       run: echo ::set-output name=version::${GITHUB_REF##*/}
+      shell: bash
     - name: build
       env:
         TARGET: ${{ inputs.target }}
-        GOOS: ${{ input.goos }}
-        GOARCH: ${{ input.goarch }}
+        GOOS: ${{ inputs.goos }}
+        GOARCH: ${{ inputs.goarch }}
         VERSION: ${{ steps.vars.outputs.version }}
       run: |
         CGO_ENABLED=0 go build \
             -ldflags "-X github.com/$GITHUB_REPOSITORY/version.BuildVersion=$VERSION" \
             -o bld/$TARGET-$GOOS-$GOARCH \
             cmd/$TARGET/$TARGET.go
+      shell: bash
     - name: artifacts
       uses: actions/upload-artifact@v2
       with:
