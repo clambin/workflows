@@ -78,6 +78,6 @@ jobs:
     needs:
       - build
     steps:
-      - uses: clambin/workflows/.github/actions/publish@actions
+      - uses: clambin/workflows/.github/actions/go/publish@actions
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
