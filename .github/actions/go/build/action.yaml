@@ -6,7 +6,7 @@ inputs:
     required: true
     type: string
   target:
-    description: "target to build. needs to be in cmd/<target>/<target>.go
+    description: "target to build. needs to be in cmd/<target>/<target>.go"
     required: true
     type: string
   goos:
