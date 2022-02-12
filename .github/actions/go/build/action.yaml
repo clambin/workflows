@@ -20,6 +20,7 @@ inputs:
     default: "amd64"
     type: string
 runs:
+  using: "composite"
   steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-go@v2
