@@ -1,4 +1,4 @@
-name: Build
+name: Release
 
 on:
    workflow_call:
@@ -73,4 +73,11 @@ jobs:
           dockerfile: ${{ inputs.dockerfile }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+  publish:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - uses: clambin/workflows/.github/actions/go/publish@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
