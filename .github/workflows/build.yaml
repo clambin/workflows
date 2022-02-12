@@ -49,3 +49,6 @@ jobs:
           target: ${{ inputs.target }}
           repo: ${{ inputs.repo }}
           dockerfile: ${{ inputs.dockerfile }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
