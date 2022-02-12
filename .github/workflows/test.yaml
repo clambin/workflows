@@ -14,3 +14,4 @@ jobs:
       - uses: clambin/workflows/.github/actions/go/test@actions
         with:
           go-version: ${{ inputs.go-version }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
