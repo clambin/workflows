@@ -15,3 +15,6 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+      - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
+        with:
+          go-version: ${{ inputs.go-version }}
