@@ -26,11 +26,30 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}  
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/lint@actions
+        with:
+          go-version: ${{ inputs.go-version }}
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/vet@actions
+        with:
+          go-version: ${{ inputs.go-version }}
+  vulnerabilities:
+    runs-on: ubuntu-latest
+    steps:
       - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
         with:
           go-version: ${{ inputs.go-version }}
   build:
-    needs: test
+    needs:
+      - test
+      - lint
+      - vet
+      - vulnerabilities
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -18,3 +18,21 @@ jobs:
       - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
         with:
           go-version: ${{ inputs.go-version }}
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/lint@actions
+        with:
+          go-version: ${{ inputs.go-version }}
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/vet@actions
+        with:
+          go-version: ${{ inputs.go-version }}
+  vulnerabilities:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
+        with:
+          go-version: ${{ inputs.go-version }}
