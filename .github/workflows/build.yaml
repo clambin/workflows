@@ -22,41 +22,36 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/test@actions
+      - uses: clambin/workflows/.github/actions/go/test
         with:
           go-version: ${{ inputs.go-version }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}  
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/lint@actions
+      - uses: clambin/workflows/.github/actions/go/lint
         with:
           go-version: ${{ inputs.go-version }}
   vet:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/vet@actions
+      - uses: clambin/workflows/.github/actions/go/vet
         with:
           go-version: ${{ inputs.go-version }}
   vulnerabilities:
     runs-on: ubuntu-latest
     steps:
-      - uses: clambin/workflows/.github/actions/go/vulnerabilities@actions
+      - uses: clambin/workflows/.github/actions/go/vulnerabilities
         with:
           go-version: ${{ inputs.go-version }}
   build:
-    needs:
-      - test
-      - lint
-      - vet
-      - vulnerabilities
     runs-on: ubuntu-latest
     strategy:
       matrix:
         goos: [ linux ]
         goarch: [ amd64, arm, arm64 ]
     steps:
-      - uses: clambin/workflows/.github/actions/go/build@actions
+      - uses: clambin/workflows/.github/actions/go/build
         with:
           go-version: ${{ inputs.go-version }}
           target: ${{ inputs.target }}
@@ -64,9 +59,14 @@ jobs:
           goarch: ${{ matrix.goarch }}
   docker:
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - test
+      - lint
+      - vet
+      - vulnerabilities
+      - build
     steps:
-      - uses: clambin/workflows/.github/actions/docker@actions
+      - uses: clambin/workflows/.github/actions/docker
         with:
           target: ${{ inputs.target }}
           repo: ${{ inputs.repo }}
