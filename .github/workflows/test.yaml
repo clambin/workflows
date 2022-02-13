@@ -22,9 +22,6 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
-      - uses: clambin/workflows/.github/actions/go/vulnerabilities@main
-        with:
-          go-version: ${{ inputs.go-version }}
   lint:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
