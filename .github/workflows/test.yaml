@@ -8,11 +8,11 @@ on:
         type: string
         required: false
         default: "1.17"
-      fast:
-        description: "only test run tests"
+      all-tests:
+        description: "set false to only run go test"
         type: boolean
         required: false
-        default: false
+        default: true
 
 jobs:
   debug:
@@ -30,21 +30,21 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
   lint:
-    if: ${{ inputs.fast }} == false
+    if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
       - uses: clambin/workflows/.github/actions/go/lint@main
         with:
           go-version: ${{ inputs.go-version }}
   vet:
-    if: ${{ inputs.fast }} == false
+    if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
       - uses: clambin/workflows/.github/actions/go/vet@main
         with:
           go-version: ${{ inputs.go-version }}
   codeql:
-    if: ${{ inputs.fast }} == false
+    if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.4.0
@@ -54,7 +54,7 @@ jobs:
       - uses: github/codeql-action/autobuild@v1
       - uses: github/codeql-action/analyze@v1
   vulnerabilities:
-    if: ${{ inputs.fast }} == false
+    if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
       - uses: clambin/workflows/.github/actions/go/vulnerabilities@main
