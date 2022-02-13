@@ -4,8 +4,10 @@ on:
    workflow_call:
     inputs:
       go-version:
-        required: true
+        description: "go version to use for test & build"
         type: string
+        required: false
+        default: "1.17"
 
 jobs:
   vulnerabilities:
