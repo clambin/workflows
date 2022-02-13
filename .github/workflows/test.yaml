@@ -9,12 +9,16 @@ on:
         required: false
         default: "1.17"
       fast:
-        description: "only test unit tests"
+        description: "only test run tests"
         type: boolean
         required: false
         default: false
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ inputs.fast }}"
   test:
     runs-on: ubuntu-latest
     steps:
