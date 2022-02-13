@@ -15,10 +15,6 @@ on:
         default: true
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{ inputs.fast }}"
   test:
     runs-on: ubuntu-latest
     steps:
