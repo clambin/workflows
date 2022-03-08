@@ -15,7 +15,7 @@ on:
         default: true
 
 jobs:
-  lint:
+  go-lint:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
           go install golang.org/x/lint/golint@latest
           golint ./...
         shell: bash
-  vet:
+  go-vet:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +41,7 @@ jobs:
           go install golang.org/x/lint/golint@latest
           golint ./...
         shell: bash
-  test:
+  go-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
