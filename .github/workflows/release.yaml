@@ -2,90 +2,23 @@ name: Release
 
 on:
    workflow_call:
-    inputs:
-      go-version:
-        description: "go version to use for test & build"
-        type: string
-        required: false
-        default: "1.17"
-      target:
-        required: true
-        type: string
-      dockerfile:
-        required: false
-        default: ./build/Dockerfile
-        type: string
-      repo:
-        required: false
-        default: clambin
-        type: string
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: clambin/workflows/.github/actions/go/test@main
-        with:
-          go-version: ${{ inputs.go-version }}
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}  
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: clambin/workflows/.github/actions/go/lint@main
-        with:
-          go-version: ${{ inputs.go-version }}
-  vet:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: clambin/workflows/.github/actions/go/vet@main
-        with:
-          go-version: ${{ inputs.go-version }}
-  codeql:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: github/codeql-action/init@v1
-        with:
-          languages: go
-      - uses: github/codeql-action/autobuild@v1
-      - uses: github/codeql-action/analyze@v1
-  vulnerabilities:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: clambin/workflows/.github/actions/go/vulnerabilities@main
-        with:
-          go-version: ${{ inputs.go-version }}
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        goos: [ linux ]
-        goarch: [ amd64, arm, arm64 ]
-    steps:
-      - uses: clambin/workflows/.github/actions/go/build@main
-        with:
-          go-version: ${{ inputs.go-version }}
-          target: ${{ inputs.target }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-  docker:
-    runs-on: ubuntu-latest
-    needs:
-      - test
-      - build
-    steps:
-      - uses: clambin/workflows/.github/actions/docker@main
-        with:
-          target: ${{ inputs.target }}
-          repo: ${{ inputs.repo }}
-          dockerfile: ${{ inputs.dockerfile }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
   publish:
     runs-on: ubuntu-latest
-    needs:
-      - docker
     steps:
-      - uses: clambin/workflows/.github/actions/go/publish@main
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./artifacts
+      - name: Move binaries into place
+        run: |
+          mkdir bld
+          mv artifacts/*/* bld
+        shell: bash
+      - uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          files: |
+            bld/*
