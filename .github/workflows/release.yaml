@@ -2,23 +2,6 @@ name: Release
 
 on:
    workflow_call:
-    inputs:
-      go-version:
-        description: "go version to use for test & build"
-        type: string
-        required: false
-        default: "1.17"
-      target:
-        required: true
-        type: string
-      dockerfile:
-        required: false
-        default: ./build/Dockerfile
-        type: string
-      repo:
-        required: false
-        default: clambin
-        type: string
 
 jobs:
   publish:
