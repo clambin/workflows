@@ -1,0 +1,25 @@
+name: publish
+description: "publish a new release"
+inputs:
+  github-token:
+    description: "github token to publish to repo"
+    required: true
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        path: ./artifacts
+    - name: Move binaries into place
+      run: |
+        mkdir bld
+        mv artifacts/*/* bld
+      shell: bash
+    - uses: marvinpinto/action-automatic-releases@v1.2.1
+      with:
+        repo_token: "${{ inputs.github-token }}"
+        prerelease: false
+        files: |
+          bld/*
