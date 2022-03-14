@@ -36,10 +36,8 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ${{ inputs.go-version }}
-      - name: lint
-        run: |
-          go install golang.org/x/lint/golint@latest
-          golint ./...
+      - name: vet
+        run: go vet ./...
         shell: bash
   go-test:
     runs-on: ubuntu-latest
