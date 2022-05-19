@@ -24,6 +24,8 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
       - uses: golangci/golangci-lint-action@v3
+        with:
+          args: --issues-exit-code=0
   go-vet:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
