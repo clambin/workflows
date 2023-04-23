@@ -50,6 +50,7 @@ jobs:
         run: |
           CGO_ENABLED=0 go build \
               -ldflags "-X github.com/$GITHUB_REPOSITORY/version.BuildVersion=$VERSION" \
+              -ldflags "-X main.BuildVersion=$VERSION" \
               -o bld/$TARGET-$GOOS-$GOARCH \
               cmd/$TARGET/$TARGET.go
         shell: bash
