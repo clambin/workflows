@@ -7,17 +7,12 @@ on:
         description: "go version to use for test & build"
         type: string
         required: false
-        default: "1.20"
+        default: "1.21"
 
 jobs:
-  vulnerabilities:
+  govulncheck:
     runs-on: ubuntu-latest
+    name: Run govulncheck
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: ${{ inputs.go-version }}
-      - name: WriteGoList
-        run: go list -json -deps all > go.list
-        shell: bash
-      - uses: sonatype-nexus-community/nancy-github-action@main
+      - id: govulncheck
+        uses: golang/govulncheck-action@v1
