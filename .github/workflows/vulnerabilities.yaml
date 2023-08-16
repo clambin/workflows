@@ -2,12 +2,6 @@ name: Vulnerabilities
 
 on:
    workflow_call:
-    inputs:
-      go-version:
-        description: "go version to use for test & build"
-        type: string
-        required: false
-        default: "1.21"
 
 jobs:
   govulncheck:
@@ -16,3 +10,5 @@ jobs:
     steps:
       - id: govulncheck
         uses: golang/govulncheck-action@v1
+        with:
+          go-version-input: 1.21
