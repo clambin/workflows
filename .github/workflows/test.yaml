@@ -19,7 +19,7 @@ jobs:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
@@ -30,7 +30,7 @@ jobs:
     if: ${{ inputs.all-tests }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
@@ -40,7 +40,7 @@ jobs:
   go-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
