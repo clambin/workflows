@@ -96,7 +96,7 @@ jobs:
             type=sha
             type=sha,suffix=-{{date 'YYYYMMDDHHmmssSS'}}
             type=semver,pattern={{version}}
-      - uses: docker/build-push-action@v5.0.0
+      - uses: docker/build-push-action@v5.1.0
         with:
           context: .
           file: ${{ inputs.dockerfile }}
