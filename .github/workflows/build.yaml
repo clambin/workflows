@@ -55,7 +55,7 @@ jobs:
               cmd/$TARGET/$TARGET.go
         shell: bash
       - name: artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.target }}-${{ matrix.goos }}-${{ matrix.goarch }}
           path: ./bld/*
