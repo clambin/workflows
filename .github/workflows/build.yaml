@@ -39,7 +39,7 @@ jobs:
         goarch: [ amd64, arm, arm64 ]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
           go-version: ${{ inputs.go-version }}
       - name: Version number
@@ -60,7 +60,7 @@ jobs:
               cmd/$TARGET/$TARGET.go
         shell: bash
       - name: artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.target }}-${{ matrix.goos }}-${{ matrix.goarch }}
           path: ./bld/*
@@ -71,15 +71,15 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.target }}-linux-arm
           path: ./bld
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.target }}-linux-arm64
           path: ./bld
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.target }}-linux-amd64
           path: ./bld
@@ -88,12 +88,12 @@ jobs:
         shell: bash
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v2.2.0
+      - uses: docker/login-action@v3.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/metadata-action@v5.0.0
+      - uses: docker/metadata-action@v5.4.0
         id: docker_meta
         with:
           images: ghcr.io/${{ inputs.repo }}/${{ inputs.image || inputs.target }}
@@ -101,7 +101,7 @@ jobs:
             type=sha
             type=sha,suffix=-{{date 'YYYYMMDDHHmmssSS'}}
             type=semver,pattern={{version}}
-      - uses: docker/build-push-action@v5.0.0
+      - uses: docker/build-push-action@v5.1.0
         with:
           context: .
           file: ${{ inputs.dockerfile }}
