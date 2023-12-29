@@ -16,6 +16,11 @@ on:
         required: false
         default: true
         type: boolean
+      image:
+        description: "overrides the image name. otherwise 'target' will be used"
+        required: false
+        type: string
+        default: ""
       dockerfile:
         required: false
         default: "./build/Dockerfile"
@@ -91,7 +96,7 @@ jobs:
       - uses: docker/metadata-action@v5.0.0
         id: docker_meta
         with:
-          images: ghcr.io/${{ inputs.repo }}/${{ inputs.target }}
+          images: ghcr.io/${{ inputs.repo }}/${{ inputs.image || inputs.target }}
           tags: |
             type=sha
             type=sha,suffix=-{{date 'YYYYMMDDHHmmssSS'}}
