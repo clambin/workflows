@@ -17,6 +17,7 @@ on:
         description: "codecov token"
         type: string
         required: false
+        default: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   go-lint:
