@@ -2,10 +2,9 @@ name: Test
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       codecov-token:
         description: "codecov token"
-        type: string
         required: false
 
 jobs:
@@ -31,7 +30,8 @@ jobs:
         run: |
           go test ./... -race -coverprofile=coverage.txt -covermode=atomic
       - uses: codecov/codecov-action@v4
+        if: ${{ secrets.codecov-token != '' }}
         with:
           file: coverage.txt
-          token: ${{ inputs.codecov-token }}
+          token: ${{ secrets.codecov-token }}
 
