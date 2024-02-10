@@ -7,7 +7,7 @@ on:
         description: "go version to use for test & build"
         type: string
         required: false
-        default: "1.21"
+        default: "1.22"
       all-tests:
         description: "set false to only run go test (deprecated)"
         type: boolean
@@ -50,7 +50,7 @@ jobs:
       - name: test
         run: |
           go test ./... -vet=off -coverprofile=coverage.txt -covermode=atomic
-          grep -v "_easyjson.go" coverage.txt > coverage.filtered
+          grep -v -e "_easyjson.go" -e "/mocks/" coverage.txt > coverage.filtered
         shell: bash
       - name: upload code coverage
         uses: codecov/codecov-action@v4
