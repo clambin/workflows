@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       go-current:
-        default: "1.22.1"
+        default: "1.22"
         type: string
       go-previous:
         default: "1.21"
