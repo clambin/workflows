@@ -24,7 +24,8 @@ jobs:
           OUTPUT: CHANGES.md
       - uses: svenstaro/upload-release-action@v2
         with:
-          file: binary_release.zip
+          file: bld/*
+          file_glob: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
           body: ${{ steps.git-cliff.outputs.content }}
