@@ -16,16 +16,9 @@ jobs:
           mkdir bld
           mv artifacts/*/* bld
         shell: bash
-      - uses: orhun/git-cliff-action@v3
-        id: git-cliff
+      - uses: crowbarmaster/GH-Automatic-Releases@latest
         with:
-          args: -vv --current --strip header
-        env:
-          OUTPUT: CHANGES.md
-      - uses: svenstaro/upload-release-action@v2
-        with:
-          file: bld/*
-          file_glob: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          body: ${{ steps.git-cliff.outputs.content }}
+          prerelease: false
+          files: |
+            bld/*
