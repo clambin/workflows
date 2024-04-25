@@ -22,7 +22,7 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: ${{ inputs.go-current }}
-    - uses: golangci/golangci-lint-action@v4
+    - uses: golangci/golangci-lint-action@v5
       with:
         args: --issues-exit-code=0 --timeout=3m
   coverage:
