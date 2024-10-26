@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        description: "go version to use for test & build"
+        type: string
+        required: false
+        default: "1.23"
+      all-tests:
+        description: "set false to only run go test (deprecated)"
+        type: boolean
+        required: false
+        default: true
+    secrets:
+      codecov-token:
+        description: "codecov token"
+        required: false
+
+jobs:
+  go-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          args: --issues-exit-code=0 --timeout=3m
+  go-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+      - name: Test
+        run: |
+          go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+        shell: bash
+      - uses: codecov/codecov-action@v4
+        with:
+          file: coverage.txt
+          token: ${{ secrets.codecov-token }}

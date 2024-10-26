@@ -1,0 +1,56 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      go-current:
+        default: "1.23"
+        type: string
+      go-previous:
+        default: "1.22"
+        type: string
+    secrets:
+      codecov-token:
+        description: "codecov token"
+        required: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-current }}
+    - uses: golangci/golangci-lint-action@v6
+      with:
+        args: --issues-exit-code=0 --timeout=3m
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-current }}
+      - name: go test
+        run: |
+          go test ./... -vet=off -coverprofile=coverage.txt -covermode=atomic
+      - uses: codecov/codecov-action@v4
+        with:
+          file: coverage.txt
+          token: ${{ secrets.codecov-token }}
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          - ${{ inputs.go-previous }}
+          - ${{ inputs.go-current }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      - name: go test
+        run: |
+          go test ./... -race
