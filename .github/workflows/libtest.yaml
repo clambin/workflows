@@ -37,7 +37,7 @@ jobs:
           go test ./... -vet=off -coverprofile=coverage.txt -covermode=atomic
       - uses: codecov/codecov-action@v5
         with:
-          file: coverage.txt
+          files: coverage.txt
           token: ${{ secrets.codecov-token }}
   test:
     runs-on: ubuntu-latest

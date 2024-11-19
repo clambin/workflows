@@ -42,5 +42,5 @@ jobs:
         shell: bash
       - uses: codecov/codecov-action@v5
         with:
-          file: coverage.txt
+          files: coverage.txt
           token: ${{ secrets.codecov-token }}
