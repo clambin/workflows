@@ -7,7 +7,7 @@ on:
         description: "go version to use for test & build"
         type: string
         required: false
-        default: "1.23"
+        default: "1.24"
       all-tests:
         description: "set false to only run go test (deprecated)"
         type: boolean
