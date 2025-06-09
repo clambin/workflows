@@ -30,6 +30,8 @@ jobs:
         id: docker_meta
         with:
           images: ${{ inputs.image }}
+          flavor: |
+            latest=false
           tags: |
             type=sha
             type=semver,pattern={{version}}
