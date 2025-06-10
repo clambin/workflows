@@ -1,5 +1,4 @@
 name: Build
-
 on:
   workflow_call:
     inputs:
@@ -13,8 +12,13 @@ on:
       dockerfile:
         required: false
         type: string
-        default: build/Dockerfile
-
+        default: Dockerfile
+      tags:
+        required: false
+        type: string
+        default: |
+          type=sha
+          type=semver,pattern={{version}}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,9 +36,7 @@ jobs:
           images: ${{ inputs.image }}
           flavor: |
             latest=false
-          tags: |
-            type=sha
-            type=semver,pattern={{version}}
+          tags: ${{ inputs.tags }}
       - uses: docker/build-push-action@v6.18.0
         with:
           context: .
