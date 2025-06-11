@@ -19,7 +19,7 @@ on:
         required: false
 
 jobs:
-  go-check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -29,10 +29,13 @@ jobs:
       - uses: golangci/golangci-lint-action@v8
         with:
           args: --issues-exit-code=0 --timeout=3m
+  vulnerabilities:
+    - runs-on: ubuntu-latest
+      steps:
       - uses: golang/govulncheck-action@v1.0.4
         with:
           go-version-input: ${{ inputs.go-version }}
-  go-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
