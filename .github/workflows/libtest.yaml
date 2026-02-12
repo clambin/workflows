@@ -4,10 +4,10 @@ on:
   workflow_call:
     inputs:
       go-current:
-        default: "1.25"
+        default: "1.26"
         type: string
       go-previous:
-        default: "1.24"
+        default: "1.25"
         type: string
     secrets:
       codecov-token:
