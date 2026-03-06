@@ -36,7 +36,7 @@ jobs:
           flavor: |
             latest=false
           tags: ${{ inputs.tags }}
-      - uses: docker/build-push-action@v6.19.2
+      - uses: docker/build-push-action@v7.0.0
         with:
           context: .
           file: ${{ inputs.dockerfile }}
