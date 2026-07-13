@@ -32,7 +32,7 @@ jobs:
   vulnerabilities:
     runs-on: ubuntu-latest
     steps:
-      - uses: golang/govulncheck-action@v1.0.4
+      - uses: golang/govulncheck-action@v1.1.0
         with:
           go-version-input: ${{ inputs.go-version }}
   test:
